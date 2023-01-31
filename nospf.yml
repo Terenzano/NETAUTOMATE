@@ -1,0 +1,20 @@
+---
+- name: ROLLBACK OSPF SNMP NTP
+  gather_facts: False
+  hosts: routers
+  connection: network_cli
+
+  tasks:
+    - name: UnConfigure OSFP SNMP and NTP
+      ios_config:
+        lines:
+          - no router ospf 1
+          - no snmp-server community tepa ro
+          - no snmp-server enable traps tty
+          - no ntp server 8.8.8.8
+          - no ntp server 4.2.2.2
+
+      register: config_output
+
+    - name: Display at console
+      debug: var=config_output

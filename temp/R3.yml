@@ -1,0 +1,19 @@
+---
+- name: Configure OSPF on Cisco IOS Routers
+  gather_facts: False
+  hosts: R3
+  connection: network_cli
+
+  tasks:
+    - name: Configure OSPF
+      ios_config:
+        lines:
+          - router ospf 1
+          - network 3.3.3.3 0.0.0.0
+          - network 10.3.3.0 0.0.0.3
+          - router-id 3.3.3.3
+
+      register: config_output
+
+    - name: Display at console
+      debug: var=config_output

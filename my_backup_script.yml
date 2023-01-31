@@ -1,0 +1,22 @@
+# @author [Terence Parassi]
+# @email [naikatepa@gmail.com]
+# @create date 2023-01-05 11:08:00
+# @desc [Automation - Backup Cisco Router or Switch]
+---
+- name: BACKUP CISCO ROUTER RUNNING CONFIGURATIONS
+  hosts: all
+  gather_facts: true
+  connection: network_cli
+
+  tasks:
+   - name: show run 
+     ios_command:
+       commands:
+         - show run 
+
+     register: config
+
+   - name: save
+     copy: 
+      content: "{{ config.stdout[0] }}"
+      dest: "/home/tepa/LAB/backups/backup_{{ ansible_net_hostname }}.txt"

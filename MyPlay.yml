@@ -1,0 +1,34 @@
+---
+- name: "Task 1: Configure OSPF on Cisco IOS Routers"
+  gather_facts: False
+  hosts: routers
+  connection: network_cli
+
+  tasks:
+    - name: Configure OSPF
+      ios_config:
+        lines: hostname {{ inventory_hostname}}
+
+      register: config_output
+
+    - name: Display at console
+      debug: var=config_output
+
+- name: "Task 2: Configure SNMP and NTP on Cisco IOS Routers"
+  gather_facts: False
+  hosts: routers
+  connection: network_cli
+
+  tasks:
+    - name: Configure SNMP and NTP
+      ios_config:
+        lines:
+          - snmp-server community tepa ro
+          - snmp-server enable traps tty
+          - ntp server 8.8.8.8
+          - ntp server 4.2.2.2
+
+      register: config_output
+
+    - name: Display at console
+      debug: var=config_output

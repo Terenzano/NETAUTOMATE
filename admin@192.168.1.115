@@ -1,0 +1,19 @@
+---
+- name: Configure SNMP and NTP on Cisco IOS Routers
+  gather_facts: False
+  hosts: routers
+  connection: ansible.netcommon.network_cli
+
+  tasks:
+    - name: Configure SNMP and NTP
+      ios_config:
+        lines:
+          - snmp-server communinity tepa
+          - snmp traps enable tty
+          - ntp server 8.8.8.8
+          - ntp server 4.2.2.2
+
+      register: config_output
+
+    - name: Display at console
+      debug: var=config_output

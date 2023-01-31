@@ -1,0 +1,16 @@
+---
+- name: SAVING CONFIGURATIONS
+  gather_facts: False
+  hosts: routers
+  connection: network_cli
+
+  tasks:
+    - name: Copy run start
+      ios_command:
+        commands:
+          - wr
+
+      register: config_output
+
+    - name: Display at console
+      debug: var=config_output
